@@ -18,9 +18,25 @@
 
 # Team
 
-| ![김태윤]() | ![장원경]() | ![한명수](https://github.com/user-attachments/assets/9092b5b0-7207-42d1-8ed9-f0e505243171) | ![홍유경]() |
-|------------------------|-----------------------|-----------------------|-----------------------|
-| 김태윤                | 장원경               | 한명수 (Team Leader) | 홍유경    
+<h1>Team</h1>
+<div style="display: flex; justify-content: space-around;">
+  <div style="text-align: center;">
+    <img src="https://your-image-link-1.png" alt="김태윤" width="150" height="150" style="border-radius: 50%;">
+    <p>김태윤</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="https://your-image-link-2.png" alt="장원경" width="150" height="150" style="border-radius: 50%;">
+    <p>장원경</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="https://github.com/user-attachments/assets/9092b5b0-7207-42d1-8ed9-f0e505243171" alt="한명수" width="150" height="150" style="border-radius: 50%;">
+    <p>한명수 (Team Leader)</p>
+  </div>
+  <div style="text-align: center;">
+    <img src="https://your-image-link-4.png" alt="홍유경" width="150" height="150" style="border-radius: 50%;">
+    <p>홍유경</p>
+  </div>
+</div>
 
 ## 프로젝트 개요
 MEALBOM은 단체 급식 환경에서 다음과 같은 문제를 해결하기 위해 설계되었습니다:
