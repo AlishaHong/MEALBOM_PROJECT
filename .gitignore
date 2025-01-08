@@ -1,2 +1,3 @@
 *.pt
-*.jpg
+train/
+detected_objects/
