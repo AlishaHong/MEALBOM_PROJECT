@@ -1,4 +1,4 @@
-![태윤](https://github.com/user-attachments/assets/b6b39704-7ae7-4071-a137-1c962bc34c31)# MEALBOM: 개인 맞춤형 인공지능 영양관리 서비스
+# MEALBOM: 개인 맞춤형 인공지능 영양관리 서비스
 
 **MEALBOM**은 최첨단 기술을 활용하여 음식 섭취를 분석하고 개인 맞춤형 영양 정보를 제공하는 혁신적인 AI 서비스입니다.
 
