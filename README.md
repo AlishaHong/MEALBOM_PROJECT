@@ -19,7 +19,7 @@
 # Team
 
 <h1>Team</h1>
-<div style="display: flex; justify-content: space-around;">
+<div style="display: flex; justify-content: space-around; align-items: center; gap: 20px; flex-wrap: nowrap;">
   <div style="text-align: center;">
     <img src="https://your-image-link-1.png" alt="김태윤" width="150" height="150" style="border-radius: 50%;">
     <p>김태윤</p>
@@ -29,7 +29,7 @@
     <p>장원경</p>
   </div>
   <div style="text-align: center;">
-    <img src="https://github.com/user-attachments/assets/9092b5b0-7207-42d1-8ed9-f0e505243171" alt="한명수" width="150" height="150" style="border-radius: 50%;">
+    <img src="https://your-image-link-3.png" alt="한명수" width="150" height="150" style="border-radius: 50%;">
     <p>한명수 (Team Leader)</p>
   </div>
   <div style="text-align: center;">
