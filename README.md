@@ -18,25 +18,9 @@
 
 # Team
 
-<h1>Team</h1>
-<div style="display: flex; justify-content: space-around; align-items: center; gap: 20px; flex-wrap: nowrap;">
-  <div style="text-align: center;">
-    <img src="https://your-image-link-1.png" alt="김태윤" width="150" height="150" style="border-radius: 50%;">
-    <p>김태윤</p>
-  </div>
-  <div style="text-align: center;">
-    <img src="https://your-image-link-2.png" alt="장원경" width="150" height="150" style="border-radius: 50%;">
-    <p>장원경</p>
-  </div>
-  <div style="text-align: center;">
-    <img src="https://your-image-link-3.png" alt="한명수" width="150" height="150" style="border-radius: 50%;">
-    <p>한명수 (Team Leader)</p>
-  </div>
-  <div style="text-align: center;">
-    <img src="https://your-image-link-4.png" alt="홍유경" width="150" height="150" style="border-radius: 50%;">
-    <p>홍유경</p>
-  </div>
-</div>
+| ![김태윤](image1.png) | ![장원경](image2.png) | ![한명수]([image3.png](https://github.com/user-attachments/assets/2a2a606d-4bac-407a-9cc2-4c4249fbd449)) | ![홍유경](image4.png) |
+|------------------------|-----------------------|-----------------------|-----------------------|
+| 김태윤                | 장원경               | 한명수 (Team Leader) | 홍유경               |
 
 ## 프로젝트 개요
 MEALBOM은 단체 급식 환경에서 다음과 같은 문제를 해결하기 위해 설계되었습니다:
