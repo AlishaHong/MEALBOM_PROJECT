@@ -18,9 +18,9 @@
 
 # Team
 
-| ![김태윤](image/태윤.jpg) | ![장원경](image/원경.jpg) | ![한명수](image/명수.jpg) | ![홍유경](image/유경.jpg) |
+| ![김태윤](image1.png) | ![장원경](image2.png) | ![한명수]([image3.png](https://github.com/user-attachments/assets/2a2a606d-4bac-407a-9cc2-4c4249fbd449)) | ![홍유경](image4.png) |
 |------------------------|-----------------------|-----------------------|-----------------------|
-| 김태윤                | 장원경               | 한명수 (Team Leader) | 홍유경    
+| 김태윤                | 장원경               | 한명수 (Team Leader) | 홍유경               |
 
 ## 프로젝트 개요
 MEALBOM은 단체 급식 환경에서 다음과 같은 문제를 해결하기 위해 설계되었습니다:
