@@ -18,7 +18,7 @@
 
 # Team
 
-| ![김태윤](image1.png) | ![장원경](image2.png) | ![한명수]([image3.png](https://github.com/user-attachments/assets/2a2a606d-4bac-407a-9cc2-4c4249fbd449)) | ![홍유경](image4.png) |
+| ![김태윤](image1.png) | ![장원경](image2.png) | ![한명수]([image3.png](image3.png)) | ![홍유경](image4.png) |
 |------------------------|-----------------------|-----------------------|-----------------------|
 | 김태윤                | 장원경               | 한명수 (Team Leader) | 홍유경               |
 

@@ -1,5 +1,6 @@
 *.pt
 train/
 detected_objects/
-*.jpg
+image/
 resize.py
+*.jpg
