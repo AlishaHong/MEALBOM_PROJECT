@@ -374,7 +374,7 @@ class DepthVolumeCalculator:
                                     else:
                                         print("오 같네?")
 
-                                    print(f"개가튼{current_frame_objects}")
+                                    print(f"{current_frame_objects}")
                                     # if current_volume is None:
                                         # current_volume
                                     if self.last_confirmed_obj_id not in list(current_frame_objects.keys()):
