@@ -1,3 +1,4 @@
+
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QPushButton, QSpacerItem, QSizePolicy
 from PyQt5.QtCore import Qt, pyqtSignal
@@ -6,84 +7,98 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 
 
+
+# 대시보드 최종 구성 정리 
+    # 영양 데이터 시각화
+    # 1. 막대그래프 : 칼로리 소비량과 권장 칼로리를 비교 
+    # 2. 파이차트 : 현재 영양소 섭취비율과(탄단지) 권장 비율을 비교
+    # 3. 원형 진행바 : 주요 영양소(칼슘,아연등) 섭취 비율을 표현
+
+    # 주요 사용자 인터페이스
+    # 1. 사용자 이름 표시(왼쪽 상단) : 고객 이름을 표시
+    # 2. 홈 버튼 : 홈 화면으로 이동 할 수 있도록 신호를 발생시킴
+    
+
+    # update_dashboard 메서드를 호출하면 NutritionSummary 객체를 기반으로 데이터가 갱신됨
+    # NutritionSummary는 영양 데이터를 제공하는 클래스이며 이 코드에서는 해당 객체를 활용하여
+    # 영양정보를 가져오도록 설계
+
+
+
+# NutritionDashboard 클래스: 영양 정보를 시각적으로 표시하는 대시보드 역할을 수행
 class NutritionDashboard(QMainWindow):
-    go_home_signal = pyqtSignal()  # 홈 버튼 클릭 시 발생하는 신호
+    go_home_signal = pyqtSignal()  # 홈 버튼이 클릭되었을 때 발생하는 신호
 
     def __init__(self):
-        super().__init__()
-        self.nutrition_summary = None  # 초기화 시 NutritionSummary가 없음
-        self.setup_ui()
+        """
+        NutritionDashboard 클래스의 생성자
+        - UI를 설정하고 초기 NutritionSummary 데이터를 None으로 설정
+        """
+        super().__init__()  # 부모 클래스(QMainWindow)의 생성자 호출
+        self.nutrition_summary = None  # 초기에는 NutritionSummary 데이터가 없음
+        self.setup_ui()  # UI를 초기화하는 메서드 호출
 
     def setup_ui(self):
-        self.setWindowTitle("Nutrition Dashboard")
-        self.setGeometry(100, 100, 1200, 900)
-        self.setStyleSheet("background-color: #282a36; color: #f8f8f2;")
+        """
+        UI(사용자 인터페이스)를 설정하는 메서드
+        - 윈도우 창의 제목, 크기, 스타일을 설정
+        - 고객 정보 라벨, 차트, 영양소 진행 바 및 홈 버튼을 배치
+        """
+        self.setWindowTitle("Nutrition Dashboard")  # 윈도우 창의 제목 설정
+        self.setGeometry(100, 100, 1200, 900)  # 창의 위치(100,100)와 크기(1200x900) 설정
+        self.setStyleSheet("background-color: #282a36; color: #f8f8f2;")  # 다크 테마 스타일 적용
 
+        # 메인 위젯 설정 (PyQt에서는 메인 레이아웃을 설정하려면 먼저 중앙 위젯을 지정해야 함)
         self.main_widget = QWidget()
         self.setCentralWidget(self.main_widget)
-        self.layout = QVBoxLayout()
-        self.main_widget.setLayout(self.layout)
+        self.layout = QVBoxLayout()  # 세로 방향으로 위젯을 배치하는 레이아웃 생성
+        self.main_widget.setLayout(self.layout)  # 메인 위젯에 레이아웃 적용
 
-        # 고객 이름 라벨 초기화
-        self.name_label = QLabel("고객 정보를 입력해주세요.")
-        self.name_label.setAlignment(Qt.AlignCenter)
+        # 고객 이름 라벨 (기본 메시지 출력)
+        self.name_label = QLabel("고객 정보를 입력해주세요.")  # 기본 텍스트 설정
+        self.name_label.setAlignment(Qt.AlignCenter)  # 텍스트 중앙 정렬
         self.name_label.setStyleSheet("""
             color: #f8f8f2;
             font-family: '맑은 고딕';
             font-size: 20px;
             font-weight: bold;
         """)
-        self.layout.addWidget(self.name_label)
+        self.layout.addWidget(self.name_label)  # 레이아웃에 추가
 
-        # 차트 영역 초기화
+        # 상단 차트 레이아웃 (수평 정렬)
         self.top_layout = QHBoxLayout()
-        self.layout.addLayout(self.top_layout, stretch=4)
+        self.layout.addLayout(self.top_layout, stretch=4)  # 상단 레이아웃 비율 설정
 
-        self.calorie_canvas = FigureCanvas(plt.figure())
-        self.top_layout.addWidget(self.calorie_canvas)
+        # 칼로리 비교 막대 그래프 캔버스 (Matplotlib 활용)
+        self.calorie_canvas = FigureCanvas(plt.figure())  # 빈 차트 생성
+        self.top_layout.addWidget(self.calorie_canvas)  # 상단 레이아웃에 추가
 
-        self.nutrition_canvas = FigureCanvas(plt.figure())
-        self.top_layout.addWidget(self.nutrition_canvas)
+        # 영양소 비율 파이 차트 캔버스
+        self.nutrition_canvas = FigureCanvas(plt.figure())  # 빈 차트 생성
+        self.top_layout.addWidget(self.nutrition_canvas)  # 상단 레이아웃에 추가
 
-        # 영양 상태 타이틀
-        bottom_title = QLabel("Nutrient Intake Status")
-        bottom_title.setAlignment(Qt.AlignCenter)
-        bottom_title.setStyleSheet("color: #f8f8f2; font-size: 16px; font-weight: 1500;")
-        self.layout.addWidget(bottom_title)
+        # 하단 영역 제목 추가
+        bottom_title = QLabel("Nutrient Intake Status")  # 제목 추가
+        bottom_title.setAlignment(Qt.AlignCenter)  # 중앙 정렬
+        bottom_title.setStyleSheet("color: #f8f8f2; font-size: 16px; font-weight: 1500;")  # 스타일 설정
+        self.layout.addWidget(bottom_title)  # 레이아웃에 추가
 
-        # 영양소 진행 바 레이아웃
+        # 하단 영양소 진행 바를 위한 레이아웃 생성 (수평 정렬)
         self.bottom_layout = QHBoxLayout()
-        self.layout.addLayout(self.bottom_layout, stretch=2)
+        self.layout.addLayout(self.bottom_layout, stretch=2)  # 하단 레이아웃 비율 설정
 
-        # 홈 버튼 추가
+        # 홈 버튼 추가 (메인 화면으로 돌아가는 기능)
         self.add_home_button()
 
-    def update_dashboard(self, nutrition_summary):
-        self.nutrition_summary = nutrition_summary
-
-        # 고객 이름 라벨 업데이트
-        customer_name = self.nutrition_summary.get_customer_name()
-        self.name_label.setText(f"{customer_name}님의 섭취 칼로리 및 영양정보")
-
-        # 차트 업데이트
-        self.calorie_canvas.figure = self.create_bar_chart()
-        self.calorie_canvas.draw()
-
-        self.nutrition_canvas.figure = self.create_pie_chart()
-        self.nutrition_canvas.draw()
-
-        # 영양소 진행 바 업데이트
-        for i in reversed(range(self.bottom_layout.count())):
-            widget = self.bottom_layout.itemAt(i).widget()
-            if widget:
-                widget.deleteLater()
-        self.add_nutrient_progress_bars()
-
     def add_home_button(self):
-        spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        """
+        홈 버튼을 추가하는 메서드
+        - 버튼을 눌렀을 때 `go_home_signal`을 발생시켜 홈 화면으로 이동할 수 있도록 구현
+        """
+        spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)  # 여백 추가
         self.layout.addSpacerItem(spacer)
 
-        home_button = QPushButton("Home")
+        home_button = QPushButton("Home")  # 버튼 생성
         home_button.setStyleSheet("""
             background-color: #6272a4;
             color: #f8f8f2;
@@ -91,116 +106,35 @@ class NutritionDashboard(QMainWindow):
             padding: 10px;
             border-radius: 5px;
         """)
-        home_button.clicked.connect(self.emit_go_home_signal)  # 신호 발생 연결
-        self.layout.addWidget(home_button)
+        home_button.clicked.connect(self.emit_go_home_signal)  # 버튼 클릭 시 `emit_go_home_signal` 실행
+        self.layout.addWidget(home_button)  # 레이아웃에 추가
 
     def emit_go_home_signal(self):
-        self.go_home_signal.emit()  # 홈 화면 전환 신호 발생
-
-    def add_nutrient_progress_bars(self):
-        if not self.nutrition_summary:
-            return  # NutritionSummary가 없으면 진행 바를 추가하지 않음
-
-        nutrient_percentages = self.nutrition_summary.get_nutrient_percentages()
-
-        colors = {
-            'ca': QColor(139, 233, 253),
-            'k': QColor(189, 147, 249),
-            'fe': QColor(255, 121, 198),
-            'zn': QColor(85, 85, 100),
-            'mg': QColor(240, 240, 240)
-        }
-
-        for nutrient, percentage in nutrient_percentages.items():
-            label = self.get_nutrient_label(nutrient)
-            color = colors.get(nutrient, QColor(200, 200, 200))
-            self.add_nutrient_progress(label, percentage, color)
-
-    def get_nutrient_label(self, nutrient_key):
-        labels = {
-            'ca': "Calcium",
-            'k': "Potassium",
-            'fe': "Iron",
-            'zn': "Zinc",
-            'mg': "Magnesium"
-        }
-        return labels.get(nutrient_key, "Unknown")
-
-    def add_nutrient_progress(self, label, value, color):
-        progress = QWidget()
-        progress.setMinimumSize(150, 150)
-        progress.paintEvent = lambda event: self.draw_circular_progress(event, progress, value, label, color)
-        self.bottom_layout.addWidget(progress)
-
-    def draw_circular_progress(self, event, widget, value, label, color):
-        painter = QPainter(widget)
-        painter.setRenderHint(QPainter.Antialiasing)
-
-        rect = widget.rect()
-        rect_adjusted = rect.adjusted(20, 20, -20, -20)
-
-        painter.setPen(Qt.NoPen)
-        painter.setBrush(QColor(50, 50, 60))
-        painter.drawEllipse(rect)
-
-        pen = QPen(color, 10)
-        pen.setCapStyle(Qt.RoundCap)
-        painter.setPen(pen)
-        painter.drawArc(
-            rect_adjusted,
-            90 * 16,
-            int(value * 3.6 * 16),
-        )
-
-        painter.setPen(QColor(255, 255, 255))
-        painter.setFont(QFont("Arial", 15, QFont.Bold))
-        painter.drawText(rect, Qt.AlignCenter, f"{value}%\n{label}")
+        """
+        홈 버튼이 눌렸을 때 `go_home_signal`을 발생시키는 메서드
+        - 외부에서 해당 신호를 받아 홈 화면으로 이동 가능하도록 설계됨
+        """
+        self.go_home_signal.emit()  # 신호 발생 (홈 화면으로 이동하는 기능 연결 가능)
 
     def create_bar_chart(self):
+        """
+        소비된 칼로리와 권장 칼로리를 비교하는 막대 그래프 생성
+        - NutritionSummary에서 데이터를 가져와 시각적으로 표현
+        """
         if not self.nutrition_summary:
             return plt.figure()  # NutritionSummary가 없으면 빈 차트 반환
 
         consumed_calories, _, one_meal_recommend_calories = self.nutrition_summary.get_calories_data()
         fig, ax = plt.subplots()
-        categories = ['Calories', 'Recommended Calories']
-        values = [consumed_calories, one_meal_recommend_calories]
-        ax.bar(categories, values, color=['#6272a4', '#bd93f9'])
+        categories = ['Calories', 'Recommended Calories']  # X축 레이블
+        values = [consumed_calories, one_meal_recommend_calories]  # Y축 데이터
+        ax.bar(categories, values, color=['#6272a4', '#bd93f9'])  # 막대 그래프 색상 지정
         ax.set_title("Calorie Comparison", fontdict={'color': '#f8f8f2', 'weight': 'bold', 'size': 12})
-        ax.tick_params(colors='#f8f8f2')
-        fig.patch.set_facecolor('#282a36')
-        ax.set_facecolor('#282a36')
-        return fig
+        ax.tick_params(colors='#f8f8f2')  # 축 글자 색상 지정
+        fig.patch.set_facecolor('#282a36')  # 차트 배경색 설정
+        ax.set_facecolor('#282a36')  # 그래프 배경색 설정
+        return fig  # 생성된 차트 반환
 
-    def create_pie_chart(self):
-        if not self.nutrition_summary:
-            return plt.figure()  # NutritionSummary가 없으면 빈 차트 반환
-
-        consumed_ratios = self.nutrition_summary.get_consumed_nutrient_ratio()
-        recommended_ratios = self.nutrition_summary.get_recommended_nutrient_ratio()
-
-        current = [
-            consumed_ratios['proteins'],
-            consumed_ratios['carbohydrates'],
-            consumed_ratios['fats']
-        ]
-        recommended = recommended_ratios
-
-        fig, axs = plt.subplots(1, 2, figsize=(10, 5))
-        fig.patch.set_facecolor('#282a36')
-
-        axs[0].pie(current, labels=['Protein', 'Carb', 'Fat'], autopct='%1.1f%%',
-                   colors=['#6272a4', '#bd93f9', '#ff79c6'],
-                   textprops={'color': '#f8f8f2'})
-        axs[0].set_title("Current Ratio", fontdict={'color': '#f8f8f2', 'weight': 'bold', 'size': 12})
-
-        axs[1].pie(recommended, labels=['Protein', 'Carb', 'Fat'], autopct='%1.1f%%',
-                   colors=['#6272a4', '#bd93f9', '#ff79c6'],
-                   textprops={'color': '#f8f8f2'})
-        axs[1].set_title("Recommended Ratio", fontdict={'color': '#f8f8f2', 'weight': 'bold', 'size': 12})
-
-        for ax in axs:
-            ax.set_facecolor('#282a36')
-        return fig
 
 # if __name__ == "__main__":
 #     user_csv_file_path = "FOOD_DB/user_info.csv"
